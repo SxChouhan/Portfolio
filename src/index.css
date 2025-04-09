@@ -1,0 +1,56 @@
+/* Tailwind CSS directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+html::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Ensure text has proper line height for descenders */
+p, span, h1, h2, h3, h4, h5, h6 {
+  line-height: 1.5;
+  padding-bottom: 0.1em;
+}
+
+/* Remove all scrollbar styles since we're hiding them */
+::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  display: none;
+}
+
+.dark ::-webkit-scrollbar-track {
+  display: none;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  display: none;
+}

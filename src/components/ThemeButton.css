@@ -1,0 +1,43 @@
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #1e293b;
+  transition: all 0.3s ease;
+  background-color: rgba(228, 228, 231, 0.6);
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+}
+
+.dark .theme-toggle {
+  color: #e2e8f0;
+  background-color: rgba(39, 39, 42, 0.6);
+}
+
+.theme-toggle:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.dark .theme-toggle:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.theme-toggle__inner-moon {
+  font-size: 1.35rem;
+  transition: transform 750ms cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
+}
+
+.dark .theme-toggle__inner-moon {
+  transform: rotate(360deg);
+} 

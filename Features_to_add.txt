@@ -1,0 +1,11 @@
+Main Features
+
+1. 3D background like space and zooming to galaxy when scrolling
+2. Aristide Benoist portfolio for model section.
+
+Normal Features
+
+1. Custom cursor
+2. Update the UI design of skills
+3. Add a smoke animation on clicking
+4. Updating some features and UI of Projects
