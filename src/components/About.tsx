@@ -36,7 +36,7 @@ export function About() {
           className="max-w-3xl mx-auto text-center mb-16"
         >
           <p className="text-lg text-zinc-700 dark:text-zinc-300 mb-6">
-            I'm a passionate B.Tech 2nd-year student at Barkatullah University, Bhopal, with a deep love for programming and technology. 
+            I'm a passionate B.Tech 3rd-year student at Barkatullah University, Bhopal, with a deep love for programming and technology. 
             My journey in tech has been driven by curiosity and a desire to create meaningful solutions.
           </p>
           <p className="text-lg text-zinc-700 dark:text-zinc-300">
