@@ -5,7 +5,7 @@
  * Handles light/dark mode switching with smooth transitions and accessibility support.
  */
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { THEME_CONFIG } from '../constants';
 import type { Theme } from '../types';
 
@@ -38,6 +38,7 @@ export function useTheme(): UseThemeReturn {
   const [theme, setThemeState] = useState<Theme>(THEME_CONFIG.defaultTheme);
   const [mounted, setMounted] = useState(false);
   const [systemPrefersDark, setSystemPrefersDark] = useState(false);
+  const announcerRef = useRef<HTMLDivElement | null>(null);
 
   /**
    * Detect system theme preference
@@ -59,12 +60,18 @@ export function useTheme(): UseThemeReturn {
     const root = document.documentElement;
     const isDark = newTheme === 'dark';
 
-    // Add/remove dark class
+    // Add/remove dark class with transition
+    root.style.setProperty('--theme-transition', 'background-color 0.2s ease-in-out');
     if (isDark) {
       root.classList.add('dark');
     } else {
       root.classList.remove('dark');
     }
+    
+    // Remove transition after animation completes
+    setTimeout(() => {
+      root.style.removeProperty('--theme-transition');
+    }, THEME_CONFIG.transitionDuration);
 
     // Update meta theme-color for mobile browsers
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
@@ -84,6 +91,35 @@ export function useTheme(): UseThemeReturn {
   }, []);
 
   /**
+   * Announce theme change to screen readers
+   */
+  const announceThemeChange = useCallback((newTheme: Theme) => {
+    // Remove existing announcer if present
+    if (announcerRef.current) {
+      document.body.removeChild(announcerRef.current);
+    }
+
+    // Create new announcer
+    const announcer = document.createElement('div');
+    announcer.setAttribute('aria-live', 'polite');
+    announcer.setAttribute('aria-atomic', 'true');
+    announcer.className = 'sr-only';
+    announcer.textContent = `Theme changed to ${newTheme} mode`;
+    document.body.appendChild(announcer);
+    announcerRef.current = announcer;
+
+    // Clean up after announcement
+    setTimeout(() => {
+      if (announcer.parentNode === document.body) {
+        document.body.removeChild(announcer);
+        if (announcerRef.current === announcer) {
+          announcerRef.current = null;
+        }
+      }
+    }, 1000);
+  }, []);
+
+  /**
    * Set theme with validation and side effects
    */
   const setTheme = useCallback((newTheme: Theme) => {
@@ -94,20 +130,8 @@ export function useTheme(): UseThemeReturn {
 
     setThemeState(newTheme);
     applyTheme(newTheme);
-
-    // Announce theme change to screen readers
-    const announcement = `Theme changed to ${newTheme} mode`;
-    const announcer = document.createElement('div');
-    announcer.setAttribute('aria-live', 'polite');
-    announcer.setAttribute('aria-atomic', 'true');
-    announcer.className = 'sr-only';
-    announcer.textContent = announcement;
-    document.body.appendChild(announcer);
-    
-    setTimeout(() => {
-      document.body.removeChild(announcer);
-    }, 1000);
-  }, [applyTheme]);
+    announceThemeChange(newTheme);
+  }, [applyTheme, announceThemeChange]);
 
   /**
    * Toggle between light and dark theme
@@ -193,6 +217,17 @@ export function useTheme(): UseThemeReturn {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [toggleTheme]);
+
+  /**
+   * Clean up announcer on unmount
+   */
+  useEffect(() => {
+    return () => {
+      if (announcerRef.current && announcerRef.current.parentNode) {
+        announcerRef.current.parentNode.removeChild(announcerRef.current);
+      }
+    };
+  }, []);
 
   return {
     theme,

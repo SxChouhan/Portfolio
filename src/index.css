@@ -3,11 +3,23 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Theme transition */
+:root {
+  --theme-transition: none;
+}
+
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* Theme transition for background colors */
+html,
+body,
+*[class*="bg-"] {
+  transition: var(--theme-transition);
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
