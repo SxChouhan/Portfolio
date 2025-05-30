@@ -23,7 +23,7 @@ import { Hero } from './components/Hero';
 import { IntroLoader } from './components/IntroLoader';
 import { ThemeButton } from './components/ThemeButton';
 import { LocationIndicator } from './components/LocationIndicator';
-import { GlobalBackground } from './components/GlobalBackground';
+import { GalaxyBackground } from './components/GalaxyBackground';
 
 // Lazy load non-critical components for better performance
 const Skills = lazy(() => import('./components/Skills').then(module => ({ default: module.Skills })));
@@ -180,8 +180,8 @@ function App(): JSX.Element {
           {A11Y_CONFIG.skipToContent}
         </a>
 
-        {/* Background Animation */}
-        {state.introComplete && <GlobalBackground />}
+        {/* Galaxy Background */}
+        {state.introComplete && <GalaxyBackground />}
 
         {/* Intro Loader */}
         <IntroLoader onComplete={handleIntroComplete} />
